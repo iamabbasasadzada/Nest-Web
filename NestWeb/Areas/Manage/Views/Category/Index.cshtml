@@ -1,0 +1,197 @@
+﻿@model List<Category>
+@{
+    ViewBag.Title = "Category admin panel";
+}
+@section styles{
+    <style>
+        .hiddenbtnofform{
+            display:none;
+        }
+        .imgoftablehello{
+             width:100px ;
+             height:100px;
+        }
+    </style>
+}
+ <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products"></option>
+                            <option value="New orders"></option>
+                            <option value="Apple iphone"></option>
+                            <option value="Ahmed Hassan"></option>
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                                <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English" />English</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                                <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                            </div>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar-2.png" alt="User" /></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Categories</h2>
+                        <p>Add, edit or delete a category</p>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <form method="post" asp-action="Create" id="createform">
+                                     <div class="mb-4">
+                                        <label for="product_name" class="form-label">Name</label>
+                                        <input name="Name" type="text" placeholder="Type here" class="form-control" id="name"  />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="Image" class="form-label">Image</label>
+                                        <input name="Image" type="text" placeholder="Type here" class="form-control" id="image"  />
+                                    </div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary">Create category</button>
+                                        <br />
+                                        
+                                    </div>
+
+                                </form>
+                                <form class="hiddenbtnofform" method="post" asp-action="Update" id="updateform">
+                                     <div class="mb-4">
+                                        <label for="product_name" class="form-label">Name</label>
+                                        <input name="Name" type="text" placeholder="Type here" class="form-control" id="namec"  />
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="Logo" class="form-label">Image</label>
+                                        <input name="Logo" type="text" placeholder="Type here" class="form-control" id="imagec"  />
+                                    </div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary " id="editbtn"  >Edit category</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </th>
+                                                <th>ID</th>
+                                                <th>Image</th>
+                                                <th>Name</th>
+                                                <th>Product Count</th>
+                                                
+                                                <th class="text-end">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (Category cate in Model)
+                                           {
+                                               <tr @(cate.IsDeleted==true?"style=background-color:red":"")>
+                                                <td class="text-center">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" />
+                                                    </div>
+                                                </td>
+                                                <td>@cate.Id</td>
+                                                <td><img class="imgoftablehello" src="~/assets/imgs/shop/@cate.Logo" alt="Category Logo"/></td>
+                                                <td>@cate.Name</td>
+                                                <td>@cate.Products.Count</td>
+                                                <td class="text-end">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="#">View detail</a>
+                                                            <a class="dropdown-item" id="editbtnss" >Edit info</a>
+                                                            <a class="dropdown-item text-danger" asp-controller="Category" asp-action="Delete" asp-route-id="@cate.Id">Delete</a>
+                                                            <a class="dropdown-item text-danger" asp-controller="Category" asp-action="DeletePer" asp-route-id="@cate.Id">Permanetly Delete</a>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <!-- dropdown //end -->
+                                                </td>
+                                            </tr>
+                                           }
+                                            
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- .col// -->
+                        </div>
+                        <!-- .row // -->
+                    </div>
+                    <!-- card body .// -->
+                </div>
+                <!-- card .// -->
+            </section>
+
+           @section scripts{
+               <script>
+                   let table = document.getElementById("table");
+                   document.querySelectorAll("#editbtnss").forEach(btnee =>{
+                    btnee.addEventListener("click",function(){
+                             let currentind = btnee.closest('tr').rowIndex;
+                                alert(table.rows[currentind].cells[1].innerHTML);
+                                document.getElementById("imagec").value = table.rows[currentind].cells[2].innerHTML;
+                                document.getElementById("namec").value = table.rows[currentind].cells[3].innerHTML;
+                        document.getElementById("createform").classList.add("hiddenbtnofform");
+                        document.getElementById("updateform").classList.remove("hiddenbtnofform");
+                        //document.getElementById("updateform").setAttribute("asp-route-id",parseInt(table.rows[currentind].cells[1].innerHTML ));
+                        //asp-controller="Category" asp-action="Delete" asp-route-id="cate.Id";
+                        //document.getElementById("editbtn").setAttribute("asp-controller", "Category");
+                        // document.getElementById("editbtn").setAttribute("asp-action", "Update");
+                         //document.getElementById("editbtn").setAttribute("asp-route-id",table.rows[currentind].cells[1].innerHTML );
+                        
+                        document.getElementById("updateform").setAttribute("action", `/Manage/Category/Update/${table.rows[currentind].cells[1].innerHTML}`);
+                          })
+                        })
+               </script>
+           }
